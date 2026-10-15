@@ -4,10 +4,7 @@ import ch.m223.reservationssystem.Model.Reservation;
 import ch.m223.reservationssystem.Repository.ReservationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -31,24 +28,38 @@ public class PrivateController {
         model.addAttribute("reservation",reservation.get());
         return "private-reservation";
     }
-    @GetMapping("/private/bearbeiten")
-    public String bearbeiten(
-            @RequestParam String code,
+    @PostMapping("/private/bearbeiten")
+    public String bearbeitenSpeichern(
+            @ModelAttribute Reservation reservation,
             Model model) {
 
-        Optional<Reservation> reservation =
-                reservationRepository.findByPrivateCode(code);
+        Optional<Reservation> bestehendOptional =
+                reservationRepository.findById(reservation.getId());
 
-        if (reservation.isEmpty()) {
-            model.addAttribute("fehler", "Private Code ist ungültig.");
+        if (bestehendOptional.isEmpty()) {
+            model.addAttribute("fehler", "Reservation wurde nicht gefunden.");
             return "index";
         }
 
-        model.addAttribute("reservation", reservation.get());
+        Reservation bestehend = bestehendOptional.get();
 
-        return "reservation-bearbeiten";
+        bestehend.setDatum(reservation.getDatum());
+        bestehend.setVon(reservation.getVon());
+        bestehend.setBis(reservation.getBis());
+        bestehend.setZimmer(reservation.getZimmer());
+        bestehend.setBemerkung(reservation.getBemerkung());
+
+        if (!bestehend.isValid()) {
+            model.addAttribute("reservation", bestehend);
+            model.addAttribute("fehler", "Die eingegebenen Daten sind ungültig.");
+            return "reservation-bearbeiten";
+        }
+
+        reservationRepository.save(bestehend);
+        model.addAttribute("reservation", bestehend);
+
+        return "private-reservation";
     }
-
 
     @PostMapping("/private/loeschen")
     public String deleteReservation(

@@ -42,9 +42,19 @@
 
 <br><br>
 
-<a th:href="@{/reservation/loeschen(id=${reservation.id})}">
-    Löschen
-</a>
+<form th:action="@{/private/loeschen}" method="post">
+
+    <input
+            type="hidden"
+            name="code"
+            th:value="${reservation.privateCode}"
+    >
+
+    <button type="submit">
+        Reservation löschen
+    </button>
+
+</form>
 
 </body>
 </html>
