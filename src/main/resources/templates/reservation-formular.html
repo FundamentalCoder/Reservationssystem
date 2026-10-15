@@ -1,54 +1,80 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservation erfassen</title>
 </head>
+
 <body>
 
 <h1>Reservation erfassen</h1>
 
-<form action="/reservation" method="post">
+<form th:action="@{/reservation}"
+      th:object="${reservation}"
+      method="post">
 
-    <label>Datum:</label>
-    <input type="date" name="datum" required>
-
-    <br><br>
-
-    <label>Von:</label>
-    <input type="time" name="von" required>
-
-    <br><br>
-    <label>Bis:</label>
-    <input type="time" name="bis" required>
+    <label for="datum">Datum:</label>
+    <input
+            type="date"
+            id="datum"
+            th:field="*{datum}"
+            required
+    >
 
     <br><br>
 
-    <label>Zimmer:</label>
-    <select name="zimmer" required>
+    <label for="von">Von:</label>
+    <input
+            type="time"
+            id="von"
+            th:field="*{von}"
+            required
+    >
+
+    <br><br>
+
+    <label for="bis">Bis:</label>
+    <input
+            type="time"
+            id="bis"
+            th:field="*{bis}"
+            required
+    >
+
+    <br><br>
+
+    <label for="zimmer">Zimmer:</label>
+    <select
+            id="zimmer"
+            th:field="*{zimmer}"
+            required>
+
+        <option value="">Bitte wählen</option>
         <option value="101">101</option>
         <option value="102">102</option>
         <option value="103">103</option>
         <option value="104">104</option>
         <option value="105">105</option>
+
     </select>
 
     <br><br>
 
-    <label>Bemerkung:</label>
-    <textarea name="bemerkung" minlength="10" maxlength="200" required></textarea>
+    <label for="bemerkung">Bemerkung:</label>
+
+    <textarea
+            id="bemerkung"
+            th:field="*{bemerkung}"
+            minlength="10"
+            maxlength="200"
+            required>
+    </textarea>
 
     <br><br>
 
-    <label>Teilnehmer:</label>
-    <input
-            type="text"
-            name="teilnehmer"
-            placeholder="Max Muster, Anna Keller"
-            required
-    >
-
-    <br><br>
+    <p th:if="${fehler}" th:text="${fehler}"></p>
 
     <button type="submit">
         Reservation erstellen
@@ -56,5 +82,12 @@
 
 </form>
 
+<br>
+
+<a href="/">
+    Zurück zur Startseite
+</a>
+
 </body>
+
 </html>

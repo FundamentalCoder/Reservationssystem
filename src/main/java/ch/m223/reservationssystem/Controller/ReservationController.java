@@ -23,7 +23,10 @@ public class ReservationController {
 
 
     @GetMapping("/reservation/neu")
-    public String ReservationErfassen(){
+    public String reservationErfassen(Model model) {
+
+        model.addAttribute("reservation", new Reservation());
+
         return "reservation-formular";
     }
     @PostMapping("/reservation")

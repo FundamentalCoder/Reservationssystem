@@ -1,11 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title Hallo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reservationssystem</title>
 </head>
+
 <body>
-<div> hallo </div>
+
+<h1>Reservationssystem</h1>
+
+<hr>
+
+<h2>Neue Reservation erstellen</h2>
+
+<p>
+    Hier können Sie einen Raum für eine Sitzung oder Veranstaltung reservieren.
+</p>
+
+<a href="/reservation/neu">
+    Reservation erfassen
+</a>
+
+<hr>
+
+<h2>Reservation öffnen</h2>
+
+<p>
+    Geben Sie hier Ihren Private- oder Public-Code ein.
+</p>
+
+<form th:action="@{/code}" method="post">
+
+    <label for="code">
+        Reservationscode:
+    </label>
+
+    <input
+            type="text"
+            id="code"
+            name="code"
+            placeholder="Code eingeben"
+            required
+    >
+
+    <button type="submit">
+        Öffnen
+    </button>
+
+</form>
+
+<!-- Fehlermeldung -->
+<p th:if="${fehler}" th:text="${fehler}"></p>
+
+<!-- Erfolgs-/Informationsmeldung -->
+<p th:if="${meldung}" th:text="${meldung}"></p>
+
+<hr>
+
+<h3>Hinweise</h3>
+
+<p>
+    <strong>Private Code:</strong>
+    Mit diesem Code können Sie Ihre Reservation bearbeiten oder löschen.
+</p>
+
+<p>
+    <strong>Public Code:</strong>
+    Mit diesem Code können eingeladene Personen die Reservation ansehen
+    und sich als Teilnehmer eintragen.
+</p>
 
 </body>
+
 </html>
