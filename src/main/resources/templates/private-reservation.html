@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation bearbeiten</title>
+</head>
+
+<body>
+
+<h1>Reservation bearbeiten</h1>
+
+<p>
+    Datum:
+    <span th:text="${reservation.datum}"></span>
+</p>
+
+<p>
+    Von:
+    <span th:text="${reservation.von}"></span>
+</p>
+
+<p>
+    Bis:
+    <span th:text="${reservation.bis}"></span>
+</p>
+
+<p>
+    Zimmer:
+    <span th:text="${reservation.zimmer}"></span>
+</p>
+
+<p>
+    Bemerkung:
+    <span th:text="${reservation.bemerkung}"></span>
+</p>
+
+<a th:href="@{/reservation/bearbeiten(id=${reservation.id})}">
+    Bearbeiten
+</a>
+
+<br><br>
+
+<a th:href="@{/reservation/loeschen(id=${reservation.id})}">
+    Löschen
+</a>
+
+</body>
+</html>
