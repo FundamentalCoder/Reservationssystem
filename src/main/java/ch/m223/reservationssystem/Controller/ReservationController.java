@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -32,11 +33,25 @@ public class ReservationController {
             model.addAttribute("fehler","Die eingegebenen Daten sind ungültig. ");
             return "reservation-formular";
         }
-        String privatCode = UUID.randomUUID().toString();
-        String publicCode = UUID.randomUUID().toString();
+        List<Reservation> bestehendeReservationen = reservationRepository.findByDatumAndZimmer(
+                reservation.getDatum(),
+                reservation.getZimmer()
+        );
 
-        reservation.setPrivateCode(privatCode);
-        reservation.setPublicCode(publicCode);
+        for (Reservation bestehend : bestehendeReservationen){
+            boolean ueberschneidung =
+                    reservation.getVon().isBefore(bestehend.getBis())
+                    &&
+                    reservation.getBis().isAfter(bestehend.getVon());
+            if(ueberschneidung){
+                model.addAttribute(
+                        "fehler", "Das Zimmer ist zu dieser Zeit bereits reserviert."
+                );
+                return "reservation-formular";
+            }
+        }
+        reservation.setPrivateCode( UUID.randomUUID().toString());
+        reservation.setPublicCode(UUID.randomUUID().toString());
 
         reservationRepository.save(reservation);
         model.addAttribute("reservation",reservation);
