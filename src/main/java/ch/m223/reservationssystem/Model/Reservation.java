@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "reservationen")
 public class Reservation {
@@ -14,10 +17,16 @@ public class Reservation {
     private  Long id;
     private LocalDate datum;
     private LocalTime von;
+    private LocalTime bis;
     private Integer zimmer;
     private String bemerkung;
     private  String privateCode;
     private  String publicCode;
+
+    @OneToMany(mappedBy = "reservation",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<User> user = new ArrayList<>();
 
     public Reservation(){}
 
@@ -78,10 +87,58 @@ public class Reservation {
     public void setPublicCode(String publicCode) {
         this.publicCode = publicCode;}
 
-    public void isValid(){
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
+    public LocalTime getBis() {
+        return bis;
+    }
+
+    public void setBis(LocalTime bis) {
+        this.bis = bis;
+    }
+
+    public boolean isValid() {
+        if (datum == null || von == null || bis == null) {
+            return false;
+        }
+
+        if (!datum.isAfter(LocalDate.now())) {
+            return false;
+        }
+
+        if (!von.isBefore(bis)) {
+            return false;
+        }
+
+        if (zimmer == null || zimmer < 101 || zimmer > 105) {
+            return false;
+        }
+
+        if (bemerkung == null ||
+                bemerkung.length() < 10 ||
+                bemerkung.length() > 200) {
+            return false;
+        }
+
+        return true;
 
     }
     public void isAvailable(){
 
+    }
+    public void addUser(User user) {
+        this.user.add(user);
+        user.setReservation(this);
+    }
+
+    public void removeUser(User user) {
+        this.user.remove(user);
+        user.setReservation(null);
     }
 }

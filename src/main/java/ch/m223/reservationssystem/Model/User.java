@@ -10,6 +10,9 @@ public class User {
     private Long id;
     private String vorname;
     private String nachname;
+
+
+
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
@@ -17,10 +20,10 @@ public class User {
     public User() {
     }
 
-    public User(String nachname, String vorname, Long id) {
+    public User(String nachname, String vorname) {
         this.nachname = nachname;
         this.vorname = vorname;
-        this.id = id;
+
     }
     public String getNachname() {
         return nachname;
@@ -44,5 +47,12 @@ public class User {
 
     public void setVorname(String vorname) {
         this.vorname = vorname;
+    }
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }

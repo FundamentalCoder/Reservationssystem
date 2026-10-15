@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Title Hallo</title>
+    <title>Reservation erfassen</title>
 </head>
 <body>
-<div> reservation-formular </div>
+
+<h1>Reservation erfassen</h1>
+
+<form action="/reservation" method="post">
+
+    <label>Datum:</label>
+    <input type="date" name="datum" required>
+
+    <br><br>
+
+    <label>Von:</label>
+    <input type="time" name="von" required>
+
+    <br><br>
+    <label>Bis:</label>
+    <input type="time" name="bis" required>
+
+    <br><br>
+
+    <label>Zimmer:</label>
+    <select name="zimmer" required>
+        <option value="101">101</option>
+        <option value="102">102</option>
+        <option value="103">103</option>
+        <option value="104">104</option>
+        <option value="105">105</option>
+    </select>
+
+    <br><br>
+
+    <label>Bemerkung:</label>
+    <textarea name="bemerkung" minlength="10" maxlength="200" required></textarea>
+
+    <br><br>
+
+    <label>Teilnehmer:</label>
+    <input
+            type="text"
+            name="teilnehmer"
+            placeholder="Max Muster, Anna Keller"
+            required
+    >
+
+    <br><br>
+
+    <button type="submit">
+        Reservation erstellen
+    </button>
+
+</form>
 
 </body>
 </html>
