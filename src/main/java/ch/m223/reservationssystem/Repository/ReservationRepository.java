@@ -16,5 +16,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Reservation> findByPublicCode(String publicCode);
 
-    List<Reservation> findByDatumAndZimmer(LocalDate datum, Integer zimmer)
+    List<Reservation> findByDatumAndZimmer(LocalDate datum, Integer zimmer);
 }
