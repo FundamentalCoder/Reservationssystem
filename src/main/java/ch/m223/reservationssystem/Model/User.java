@@ -13,6 +13,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
+
     public User() {
     }
 
