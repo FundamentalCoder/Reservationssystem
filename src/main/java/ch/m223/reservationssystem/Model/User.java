@@ -1,9 +1,6 @@
 package ch.m223.reservationssystem.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -13,7 +10,9 @@ public class User {
     private Long id;
     private String vorname;
     private String nachname;
-
+    @ManyToOne
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
     public User() {
     }
 
