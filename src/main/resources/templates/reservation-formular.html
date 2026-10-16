@@ -72,7 +72,18 @@
             required>
     </textarea>
 
+    <br><br><label for="users">Teilnehmer:</label>
+
+    <input
+            type="text"
+            id="users"
+            name="usersText"
+            placeholder="Max Muster, Anna Keller"
+            required
+    >
+
     <br><br>
+
 
     <p th:if="${fehler}" th:text="${fehler}"></p>
 
