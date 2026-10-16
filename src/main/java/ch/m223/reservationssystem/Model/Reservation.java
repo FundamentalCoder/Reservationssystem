@@ -26,7 +26,7 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<User> user = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     public Reservation(){}
 
@@ -87,12 +87,12 @@ public class Reservation {
     public void setPublicCode(String publicCode) {
         this.publicCode = publicCode;}
 
-    public List<User> getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
     public void setUser(List<User> user) {
-        this.user = user;
+        this.users = users;
     }
 
     public LocalTime getBis() {
@@ -133,12 +133,12 @@ public class Reservation {
 
     }
     public void addUser(User user) {
-        this.user.add(user);
+        this.users.add(user);
         user.setReservation(this);
     }
 
     public void removeUser(User user) {
-        this.user.remove(user);
+        this.users.remove(user);
         user.setReservation(null);
     }
 

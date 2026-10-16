@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation erstellt</title>
+</head>
+
+<body>
+
+<h1>Reservation erfolgreich erstellt</h1>
+
+<p>
+  Datum:
+  <span th:text="${reservation.datum}"></span>
+</p>
+
+<p>
+  Von:
+  <span th:text="${reservation.von}"></span>
+</p>
+
+<p>
+  Bis:
+  <span th:text="${reservation.bis}"></span>
+</p>
+
+<p>
+  Zimmer:
+  <span th:text="${reservation.zimmer}"></span>
+</p>
+
+<p>
+  Bemerkung:
+  <span th:text="${reservation.bemerkung}"></span>
+</p>
+
+<h2>Teilnehmer</h2>
+
+<ul>
+  <li th:each="user : ${reservation.users}">
+    <span th:text="${user.vorname}"></span>
+    <span th:text="${user.nachname}"></span>
+  </li>
+</ul>
+
+<h2>Codes</h2>
+
+<p>
+  Private Code:
+  <strong th:text="${reservation.privateCode}"></strong>
+</p>
+
+<p>
+  Public Code:
+  <strong th:text="${reservation.publicCode}"></strong>
+</p>
+
+<br>
+
+<a href="/">Zurück zur Startseite</a>
+
+</body>
+</html>
