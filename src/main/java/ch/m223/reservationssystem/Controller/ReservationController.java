@@ -46,6 +46,28 @@ public class ReservationController {
             return "reservation-formular";
         }
 
+        List<Reservation> bestehendeReservationen =
+                reservationRepository.findByDatumAndZimmer(
+                        reservation.getDatum(),
+                        reservation.getZimmer()
+                );
+
+        for (Reservation bestehend : bestehendeReservationen) {
+
+            boolean ueberschneidung =
+                    reservation.getVon().isBefore(bestehend.getBis())
+                            && reservation.getBis().isAfter(bestehend.getVon());
+
+            if (ueberschneidung) {
+                model.addAttribute(
+                        "fehler",
+                        "Das Zimmer ist zu dieser Zeit bereits reserviert."
+                );
+
+                return "reservation-formular";
+            }
+        }
+
         String[] personen = usersText.split(",");
 
         for (String person : personen) {
