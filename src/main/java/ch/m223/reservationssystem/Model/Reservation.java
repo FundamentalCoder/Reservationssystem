@@ -30,9 +30,12 @@ public class Reservation {
 
     public Reservation(){}
 
+
+
     public Reservation
             (LocalDate datum,
              LocalTime von,
+             LocalTime bis,
              Integer zimmer,
              String bemerkung,
              String privateCode,
@@ -40,6 +43,7 @@ public class Reservation {
 
         this.datum = datum;
         this.von = von;
+        this.bis = bis;
         this.zimmer = zimmer;
         this.bemerkung = bemerkung;
         this.privateCode = privateCode;
@@ -91,7 +95,7 @@ public class Reservation {
         return users;
     }
 
-    public void setUser(List<User> user) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
@@ -129,9 +133,7 @@ public class Reservation {
         return true;
 
     }
-    public void isAvailable(){
 
-    }
     public void addUser(User user) {
         this.users.add(user);
         user.setReservation(this);

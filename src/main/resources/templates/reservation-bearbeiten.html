@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation bearbeiten</title>
+</head>
+
+<body>
+
+<h1>Reservation bearbeiten</h1>
+
+<form th:action="@{/private/bearbeiten}"
+      th:object="${reservation}"
+      method="post">
+
+    <input type="hidden" th:field="*{id}">
+
+    <label for="datum">Datum:</label>
+    <input
+            type="date"
+            id="datum"
+            name="datum"
+            th:value="${#temporals.format(reservation.datum, 'yyyy-MM-dd')}"
+            required
+    >
+
+    <br><br>
+
+    <label for="von">Von:</label>
+    <input
+            type="time"
+            id="von"
+            th:field="*{von}"
+            required
+    >
+
+    <br><br>
+
+    <label for="bis">Bis:</label>
+    <input
+            type="time"
+            id="bis"
+            th:field="*{bis}"
+            required
+    >
+
+    <br><br>
+
+    <label for="zimmer">Zimmer:</label>
+    <select id="zimmer"
+            th:field="*{zimmer}"
+            required>
+
+        <option value="101">101</option>
+        <option value="102">102</option>
+        <option value="103">103</option>
+        <option value="104">104</option>
+        <option value="105">105</option>
+
+    </select>
+
+    <br><br>
+
+    <label for="bemerkung">Bemerkung:</label>
+
+    <textarea
+            id="bemerkung"
+            th:field="*{bemerkung}"
+            minlength="10"
+            maxlength="200"
+            required>
+    </textarea>
+
+    <br><br>
+
+    <p th:if="${fehler}" th:text="${fehler}"></p>
+
+    <button type="submit">
+        Änderungen speichern
+    </button>
+
+</form>
+
+<br>
+
+<a th:href="@{/private(code=${reservation.privateCode})}">
+    Abbrechen
+</a>
+
+</body>
+</html>
