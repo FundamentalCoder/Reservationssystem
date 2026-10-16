@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation</title>
+</head>
+
+<body>
+
 <h1>Reservation</h1>
 
 <p>
@@ -24,6 +34,7 @@
   Bemerkung:
   <span th:text="${reservation.bemerkung}"></span>
 </p>
+
 <h2>Teilnehmer</h2>
 
 <ul>
@@ -33,6 +44,48 @@
   </li>
 </ul>
 
+<h2>Als Teilnehmer eintragen</h2>
+
+<form th:action="@{/public/teilnehmen}" method="post">
+
+  <input
+          type="hidden"
+          name="code"
+          th:value="${reservation.publicCode}"
+  >
+
+  <label for="vorname">Vorname:</label>
+  <input
+          type="text"
+          id="vorname"
+          name="vorname"
+          required
+  >
+
+  <br><br>
+
+  <label for="nachname">Nachname:</label>
+  <input
+          type="text"
+          id="nachname"
+          name="nachname"
+          required
+  >
+
+  <br><br>
+
+  <button type="submit">
+    Teilnehmen
+  </button>
+
+</form>
+
+<br>
+
+<a href="/">Zurück zur Startseite</a>
+
+</body>
+</html>
 
 
 <h2>Als Teilnehmer eintragen</h2>

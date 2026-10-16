@@ -36,8 +36,8 @@
     <span th:text="${reservation.bemerkung}"></span>
 </p>
 
-<a th:href="@{/reservation/bearbeiten(id=${reservation.id})}">
-    Bearbeiten
+<a th:href="@{/private/bearbeiten(code=${reservation.privateCode})}">
+    Reservation bearbeiten
 </a>
 
 <br><br>
