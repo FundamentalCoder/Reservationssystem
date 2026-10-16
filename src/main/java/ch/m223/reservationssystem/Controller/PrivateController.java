@@ -5,6 +5,8 @@ import ch.m223.reservationssystem.Repository.ReservationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -83,6 +85,33 @@ public class PrivateController {
             );
 
             return "reservation-bearbeiten";
+        }
+        List<Reservation> bestehendeReservationen =
+                reservationRepository.findByDatumAndZimmer(
+                        bestehend.getDatum(),
+                        bestehend.getZimmer()
+                );
+
+        for (Reservation andere : bestehendeReservationen) {
+
+            if (andere.getId().equals(bestehend.getId())) {
+                continue;
+            }
+
+            boolean ueberschneidung =
+                    bestehend.getVon().isBefore(andere.getBis())
+                            && bestehend.getBis().isAfter(andere.getVon());
+
+            if (ueberschneidung) {
+                model.addAttribute(
+                        "fehler",
+                        "Das Zimmer ist zu dieser Zeit bereits reserviert."
+                );
+
+                model.addAttribute("reservation", bestehend);
+
+                return "reservation-bearbeiten";
+            }
         }
 
         reservationRepository.save(bestehend);
