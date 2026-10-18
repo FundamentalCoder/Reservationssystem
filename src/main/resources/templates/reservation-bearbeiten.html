@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}">
     <title>Reservation bearbeiten</title>
 </head>
 
 <body>
+<div class="container">
 
 <h1>Reservation bearbeiten</h1>
 
@@ -87,6 +89,6 @@
 <a th:href="@{/private(code=${reservation.privateCode})}">
     Abbrechen
 </a>
-
+</div>
 </body>
 </html>
