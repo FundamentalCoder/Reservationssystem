@@ -1,6 +1,7 @@
 package ch.m223.reservationssystem.Controller;
 
 import ch.m223.reservationssystem.Model.Reservation;
+import ch.m223.reservationssystem.Model.User;
 import ch.m223.reservationssystem.Repository.ReservationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -144,4 +145,90 @@ public class PrivateController {
 
         return "index";
     }
+
+    @PostMapping("/private/teilnehmen")
+    public String teilnehmerHinzufuegen(
+            @RequestParam String code,
+            @RequestParam String vorname,
+            @RequestParam String nachname,
+            Model model) {
+
+        Optional<Reservation> reservationOptional =
+                reservationRepository.findByPrivateCode(code);
+
+        if (reservationOptional.isEmpty()) {
+            model.addAttribute(
+                    "fehler",
+                    "Private Code ist ungültig."
+            );
+
+            return "index";
+        }
+
+        Reservation reservation =
+                reservationOptional.get();
+
+        User user =
+                new User(vorname, nachname);
+
+        reservation.addUser(user);
+
+        reservationRepository.save(reservation);
+
+        model.addAttribute(
+                "reservation",
+                reservation
+        );
+
+        return "reservation-bearbeiten";
+    }
+
+
+    @PostMapping("/private/teilnehmer/loeschen")
+    public String teilnehmerLoeschen(
+            @RequestParam String code,
+            @RequestParam Long userId,
+            Model model) {
+
+        Optional<Reservation> reservationOptional =
+                reservationRepository.findByPrivateCode(code);
+
+        if (reservationOptional.isEmpty()) {
+            model.addAttribute(
+                    "fehler",
+                    "Private Code ist ungültig."
+            );
+
+            return "index";
+        }
+
+        Reservation reservation =
+                reservationOptional.get();
+
+        User userZumLoeschen = null;
+
+        for (User user : reservation.getUsers()) {
+
+            if (user.getId().equals(userId)) {
+                userZumLoeschen = user;
+                break;
+            }
+        }
+
+        if (userZumLoeschen != null) {
+            reservation.removeUser(userZumLoeschen);
+
+            reservationRepository.save(reservation);
+        }
+
+        model.addAttribute(
+                "reservation",
+                reservation
+        );
+
+        return "reservation-bearbeiten";
+    }
+
+
+
 }

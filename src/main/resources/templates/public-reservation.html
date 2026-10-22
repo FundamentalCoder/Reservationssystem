@@ -46,41 +46,7 @@
   </li>
 </ul>
 
-<h2>Als Teilnehmer eintragen</h2>
 
-<form th:action="@{/public/teilnehmen}" method="post">
-
-  <input
-          type="hidden"
-          name="code"
-          th:value="${reservation.publicCode}"
-  >
-
-  <label for="vorname">Vorname:</label>
-  <input
-          type="text"
-          id="vorname"
-          name="vorname"
-          required
-  >
-
-  <br><br>
-
-  <label for="nachname">Nachname:</label>
-  <input
-          type="text"
-          id="nachname"
-          name="nachname"
-          required
-  >
-
-  <br><br>
-
-  <button type="submit">
-    Teilnehmen
-  </button>
-
-</form>
 
 <br>
 

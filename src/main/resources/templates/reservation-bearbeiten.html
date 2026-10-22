@@ -8,87 +8,168 @@
 </head>
 
 <body>
+
 <div class="container">
 
-<h1>Reservation bearbeiten</h1>
+    <h1>Reservation bearbeiten</h1>
 
-<form th:action="@{/private/bearbeiten}"
-      th:object="${reservation}"
-      method="post">
+    <form id="bearbeitenForm"
+          th:action="@{/private/bearbeiten}"
+          th:object="${reservation}"
+          method="post">
 
-    <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{id}">
 
-    <label for="datum">Datum:</label>
-    <input
-            type="date"
-            id="datum"
-            name="datum"
-            th:value="${#temporals.format(reservation.datum, 'yyyy-MM-dd')}"
-            required
-    >
+        <label for="datum">Datum:</label>
+        <input
+                type="date"
+                id="datum"
+                name="datum"
+                th:value="${#temporals.format(reservation.datum, 'yyyy-MM-dd')}"
+                required
+        >
+
+        <br><br>
+
+        <label for="von">Von:</label>
+        <input
+                type="time"
+                id="von"
+                th:field="*{von}"
+                required
+        >
+
+        <br><br>
+
+        <label for="bis">Bis:</label>
+        <input
+                type="time"
+                id="bis"
+                th:field="*{bis}"
+                required
+        >
+
+        <br><br>
+
+        <label for="zimmer">Zimmer:</label>
+        <select
+                id="zimmer"
+                th:field="*{zimmer}"
+                required>
+
+            <option value="101">101</option>
+            <option value="102">102</option>
+            <option value="103">103</option>
+            <option value="104">104</option>
+            <option value="105">105</option>
+
+        </select>
+
+        <br><br>
+
+        <label for="bemerkung">Bemerkung:</label>
+
+        <textarea
+                id="bemerkung"
+                th:field="*{bemerkung}"
+                minlength="10"
+                maxlength="200"
+                required>
+        </textarea>
+
+        <br><br>
+
+        <p th:if="${fehler}" th:text="${fehler}"></p>
+
+    </form>
+
+    <hr>
+
+    <h2>Teilnehmer verwalten</h2>
+
+    <h3>Aktuelle Teilnehmer</h3>
+
+    <ul>
+        <li th:each="user : ${reservation.users}">
+
+            <span th:text="${user.vorname}"></span>
+            <span th:text="${user.nachname}"></span>
+
+            <form
+                    th:action="@{/private/teilnehmer/loeschen}"
+                    method="post"
+                    style="display: inline;">
+
+                <input
+                        type="hidden"
+                        name="code"
+                        th:value="${reservation.privateCode}"
+                >
+
+                <input
+                        type="hidden"
+                        name="userId"
+                        th:value="${user.id}"
+                >
+
+                <button type="submit">
+                    Löschen
+                </button>
+
+            </form>
+
+        </li>
+    </ul>
+
+    <h3>Neuen Teilnehmer hinzufügen</h3>
+
+    <form th:action="@{/private/teilnehmen}" method="post">
+
+        <input
+                type="hidden"
+                name="code"
+                th:value="${reservation.privateCode}"
+        >
+
+        <label for="vorname">Vorname:</label>
+        <input
+                type="text"
+                id="vorname"
+                name="vorname"
+                required
+        >
+
+        <br><br>
+
+        <label for="nachname">Nachname:</label>
+        <input
+                type="text"
+                id="nachname"
+                name="nachname"
+                required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Teilnehmer hinzufügen
+        </button>
+
+    </form>
 
     <br><br>
 
-    <label for="von">Von:</label>
-    <input
-            type="time"
-            id="von"
-            th:field="*{von}"
-            required
-    >
-
-    <br><br>
-
-    <label for="bis">Bis:</label>
-    <input
-            type="time"
-            id="bis"
-            th:field="*{bis}"
-            required
-    >
-
-    <br><br>
-
-    <label for="zimmer">Zimmer:</label>
-    <select id="zimmer"
-            th:field="*{zimmer}"
-            required>
-
-        <option value="101">101</option>
-        <option value="102">102</option>
-        <option value="103">103</option>
-        <option value="104">104</option>
-        <option value="105">105</option>
-
-    </select>
-
-    <br><br>
-
-    <label for="bemerkung">Bemerkung:</label>
-
-    <textarea
-            id="bemerkung"
-            th:field="*{bemerkung}"
-            minlength="10"
-            maxlength="200"
-            required>
-    </textarea>
-
-    <br><br>
-
-    <p th:if="${fehler}" th:text="${fehler}"></p>
-
-    <button type="submit">
+    <button type="submit" form="bearbeitenForm">
         Änderungen speichern
     </button>
 
-</form>
+    <br><br>
 
-<br>
+    <a th:href="@{/private(code=${reservation.privateCode})}">
+        Abbrechen
+    </a>
 
-<a th:href="@{/private(code=${reservation.privateCode})}">
-    Abbrechen
-</a>
 </div>
+
 </body>
 </html>

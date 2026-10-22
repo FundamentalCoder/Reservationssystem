@@ -39,31 +39,5 @@ public class PublicController {
     }
 
 
-    @PostMapping("/public/teilnehmen")
-    public String teilnehmen(
-            @RequestParam String code,
-            @RequestParam String vorname,
-            @RequestParam String nachname,
-            Model model) {
 
-        Optional<Reservation> reservationOptional =
-                reservationRepository.findByPublicCode(code);
-
-        if (reservationOptional.isEmpty()) {
-            model.addAttribute("fehler", "Public Code ist ungültig.");
-            return "index";
-        }
-
-        Reservation reservation = reservationOptional.get();
-
-        User user = new User(vorname, nachname);
-
-        reservation.addUser(user);
-
-        reservationRepository.save(reservation);
-
-        model.addAttribute("reservation", reservation);
-
-        return "public-reservation";
-    }
 }
